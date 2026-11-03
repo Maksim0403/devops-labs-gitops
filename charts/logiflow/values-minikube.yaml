@@ -5,7 +5,7 @@ images:
     pullPolicy: IfNotPresent
   frontend:
     repository: ghcr.io/maksim0403/devops-labs-frontend
-    tag: "9.9.9"
+    tag: "1.2.0"
     pullPolicy: IfNotPresent
 
 existingSecret: logiflow-secret
