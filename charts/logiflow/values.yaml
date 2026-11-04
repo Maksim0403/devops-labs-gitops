@@ -14,6 +14,9 @@ images:
 
 existingSecret: ""
 
+rollout:
+  enabled: false
+
 backend:
   replicas: 2
   containerPort: 8000
