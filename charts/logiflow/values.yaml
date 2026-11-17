@@ -14,6 +14,12 @@ images:
 
 existingSecret: ""
 
+env: []
+
+metrics:
+  enabled: false
+  path: /metrics
+
 rollout:
   enabled: false
 

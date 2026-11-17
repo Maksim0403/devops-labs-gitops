@@ -1,0 +1,17 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "logiflow.fullname" . }}-backend
+  labels:
+    {{- include "logiflow.labels" (dict "root" . "name" "backend") | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backend
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  endpoints:
+    - port: http
+      path: {{ .Values.metrics.path | quote }}
+      interval: 15s
+{{- end }}
