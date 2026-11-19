@@ -1,0 +1,19 @@
+{{- if .Values.rollout.analysis.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ include "logiflow.fullname" . }}-success-rate
+  labels:
+    {{- include "logiflow.labels" (dict "root" . "name" "analysis") | nindent 4 }}
+spec:
+  metrics:
+    - name: success-rate
+      interval: 30s
+      count: 4
+      failureLimit: 1
+      successCondition: result[0] >= 0.95
+      provider:
+        prometheus:
+          address: {{ .Values.rollout.analysis.prometheusAddress | quote }}
+          query: {{ printf "sum(rate(http_requests_total{%s,status!~\"5..\"}[1m])) / sum(rate(http_requests_total{%s}[1m]))" .Values.rollout.analysis.selector .Values.rollout.analysis.selector | quote }}
+{{- end }}

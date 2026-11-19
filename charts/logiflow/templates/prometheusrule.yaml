@@ -1,0 +1,24 @@
+{{- if .Values.alert.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "logiflow.fullname" . }}-http-errors
+  labels:
+    {{- include "logiflow.labels" (dict "root" . "name" "alerts") | nindent 4 }}
+spec:
+  groups:
+    - name: logiflow.http
+      rules:
+        - alert: LogiflowHighErrorRate
+          expr: |
+            sum(rate(http_requests_total{namespace="{{ .Release.Namespace }}",status=~"5.."}[1m]))
+            /
+            clamp_min(sum(rate(http_requests_total{namespace="{{ .Release.Namespace }}"}[1m])), 1e-9)
+            > 0.05
+          for: {{ .Values.alert.for | quote }}
+          labels:
+            severity: warning
+          annotations:
+            summary: LogiFlow HTTP 5xx rate is above the configured limit
+            description: More than {{ mulf .Values.alert.errorRate 100 }}% of LogiFlow requests returned 5xx for {{ .Values.alert.for }}.
+{{- end }}

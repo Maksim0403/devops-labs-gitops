@@ -20,8 +20,20 @@ metrics:
   enabled: false
   path: /metrics
 
+dashboard:
+  enabled: false
+
+alert:
+  enabled: false
+  errorRate: 0.05
+  for: 30s
+
 rollout:
   enabled: false
+  analysis:
+    enabled: false
+    prometheusAddress: http://kps-prometheus.monitoring:9090
+    selector: 'namespace="logiflow-argo"'
 
 backend:
   replicas: 2
