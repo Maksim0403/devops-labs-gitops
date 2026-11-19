@@ -1,7 +1,7 @@
 images:
   backend:
     repository: ghcr.io/maksim0403/devops-labs-backend
-    tag: "53e6e48f8ec85b9b740640126fa6b7dccd9ae5f9"
+    tag: "2.0.0"
     pullPolicy: IfNotPresent
   frontend:
     repository: ghcr.io/maksim0403/devops-labs-frontend
@@ -12,7 +12,7 @@ existingSecret: logiflow-secret
 
 env:
   - name: FAIL_RATE
-    value: "0.5"
+    value: "0"
 
 metrics:
   enabled: true
