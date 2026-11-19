@@ -12,7 +12,7 @@ existingSecret: logiflow-secret
 
 env:
   - name: FAIL_RATE
-    value: "0"
+    value: "0.5"
 
 metrics:
   enabled: true
