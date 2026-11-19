@@ -1,0 +1,12 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "logiflow.fullname" . }}-dashboard
+  labels:
+    {{- include "logiflow.labels" (dict "root" . "name" "dashboard") | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  logiflow.json: |-
+{{ .Files.Get "dashboards/logiflow.json" | indent 4 }}
+{{- end }}
